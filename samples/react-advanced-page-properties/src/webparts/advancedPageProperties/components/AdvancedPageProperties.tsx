@@ -28,7 +28,7 @@ const AdvancedPageProperties: React.FunctionComponent<IAdvancedPagePropertiesPro
 
   propsRef.current = props;
 
-  sp.setup({ spfxContext: props.context });
+  sp.setup({ spfxContext: props.context as any});
 
   /**
    * refreshProperties

@@ -38,7 +38,7 @@ export default class AdvancedPagePropertiesWebPart extends BaseClientSideWebPart
   }
 
   protected async onInit(): Promise<void> {
-    sp.setup({ spfxContext: this.context });
+    sp.setup({ spfxContext: this.context as any });
 
       // Consume the new ThemeProvider service
     this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
@@ -87,6 +87,7 @@ export default class AdvancedPagePropertiesWebPart extends BaseClientSideWebPart
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
+  // @ts-ignore
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
