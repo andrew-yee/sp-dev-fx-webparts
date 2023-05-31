@@ -1,7 +1,11 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { graph } from "@pnp/graph";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { sp, PeoplePickerEntity, ClientPeoplePickerQueryParameters, SearchQuery, SearchResults, SearchProperty, SortDirection } from '@pnp/sp';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { PrincipalType } from "@pnp/sp/src/sitegroups";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { isRelativeUrl } from "office-ui-fabric-react";
 import { ISPServices } from "./ISPServices";
 
@@ -18,6 +22,7 @@ export class spservices implements ISPServices {
         const searchProperties: string[] = ["FirstName", "LastName", "PreferredName", "WorkEmail", "OfficeNumber", "PictureURL", "WorkPhone", "MobilePhone", "JobTitle", "Department", "Skills", "PastProjects", "BaseOfficeLocation", "SPS-UserType", "GroupId"];
         try {
             if (!searchString) return undefined;
+            // eslint-disable-next-line prefer-const
             let users = await sp.searchWithCaching(<SearchQuery>{
                 Querytext: _search,
                 RowLimit: 500,
@@ -33,9 +38,12 @@ export class spservices implements ISPServices {
     }
 
     public async _getImageBase64 (pictureUrl: string): Promise<string> {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         return new Promise((resolve, reject) => {
+            // eslint-disable-next-line prefer-const
             let image = new Image();
             image.addEventListener("load", () => {
+                // eslint-disable-next-line prefer-const
                 let tempCanvas = document.createElement("canvas");
                 tempCanvas.width = image.width,
                     tempCanvas.height = image.height,
@@ -52,7 +60,9 @@ export class spservices implements ISPServices {
         });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public async searchUsersNew(searchString: string, srchQry: string, isInitialSearch: boolean, pageNumber?: number): Promise<SearchResults> {
+        // eslint-disable-next-line @typescript-eslint/no-inferrable-types
         let qrytext: string = '';
         if (isInitialSearch) qrytext = `FirstName:${searchString}* OR LastName:${searchString}*`;
         else {
@@ -64,6 +74,7 @@ export class spservices implements ISPServices {
         }
         const searchProperties: string[] = ["FirstName", "LastName", "PreferredName", "WorkEmail", "OfficeNumber", "PictureURL", "WorkPhone", "MobilePhone", "JobTitle", "Department", "Skills", "PastProjects", "BaseOfficeLocation", "SPS-UserType", "GroupId"];
         try {
+            // eslint-disable-next-line prefer-const
             let users = await sp.search(<SearchQuery>{
                 Querytext: qrytext,
                 RowLimit: 500,
@@ -74,6 +85,7 @@ export class spservices implements ISPServices {
             });
             if (users && users.PrimarySearchResults.length > 0) {
                 for (let index = 0; index < users.PrimarySearchResults.length; index++) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     let user: any = users.PrimarySearchResults[index];
                     if (user.PictureURL) {
                         user = { ...user, PictureURL: `/_layouts/15/userphoto.aspx?size=M&accountname=${user.WorkEmail}` };

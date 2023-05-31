@@ -15,8 +15,8 @@ import {
   Icon,
 } from 'office-ui-fabric-react';
 
-const EXP_SOURCE: string = 'SPFxDirectory';
-const LIVE_PERSONA_COMPONENT_ID: string =
+const EXP_SOURCE = 'SPFxDirectory';
+const LIVE_PERSONA_COMPONENT_ID =
   '914330ee-2df2-4f6e-a858-30c23a812408';
 
 export class PersonaCard extends React.Component<
@@ -38,6 +38,7 @@ export class PersonaCard extends React.Component<
       const sharedLibrary = await this._loadSPComponentById(
         LIVE_PERSONA_COMPONENT_ID
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const livePersonaCard: any = sharedLibrary.LivePersonaCard;
       this.setState({ livePersonaCard: livePersonaCard });
     }
@@ -51,8 +52,11 @@ export class PersonaCard extends React.Component<
    * @memberof PersonaCard
    */
   public componentDidUpdate(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     prevProps: IPersonaCardProps,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     prevState: IPersonaCardState
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): void { }
 
   /**
@@ -133,15 +137,18 @@ export class PersonaCard extends React.Component<
    * Load SPFx component by id, SPComponentLoader is used to load the SPFx components
    * @param componentId - componentId, guid of the component library
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async _loadSPComponentById(componentId: string): Promise<any> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const component: any = await SPComponentLoader.loadComponentById(
         componentId
       );
       return component;
     } catch (error) {
       Promise.reject(error);
-      Log.error(EXP_SOURCE, error, this.props.context.serviceScope);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Log.error(EXP_SOURCE, error, (this.props.context.serviceScope as any));
     }
   }
 

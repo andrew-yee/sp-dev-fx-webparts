@@ -18,7 +18,9 @@ import { spMockServices } from "../../../SPServices/spMockServices";
 import { IDirectoryProps } from './IDirectoryProps';
 import Paging from './Pagination/Paging';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-explicit-any
 const slice: any = require('lodash/slice');
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-explicit-any
 const filter: any = require('lodash/filter');
 const wrapStackTokens: IStackTokens = { childrenGap: 30 };
 
@@ -49,14 +51,19 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
     ];
     const color = props.context.microsoftTeams ? "white" : "";
     // Paging
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [pagedItems, setPagedItems] = useState<any[]>([]);
     const [pageSize, setPageSize] = useState<number>(props.pageSize ? props.pageSize : 10);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const _onPageUpdate = async (pageno?: number) => {
+        // eslint-disable-next-line no-var
         var currentPge = (pageno) ? pageno : currentPage;
+        // eslint-disable-next-line no-var
         var startItem = ((currentPge - 1) * pageSize);
+        // eslint-disable-next-line no-var
         var endItem = currentPge * pageSize;
+        // eslint-disable-next-line prefer-const
         let filItems = slice(state.users, startItem, endItem);
         setCurrentPage(currentPge);
         setPagedItems(filItems);
@@ -64,8 +71,10 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
 
     const diretoryGrid =
         pagedItems && pagedItems.length > 0
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ? pagedItems.map((user: any) => {
                 return (
+                    // eslint-disable-next-line react/jsx-key
                     <PersonaCard
                         context={props.context}
                         profileProperties={{
@@ -84,6 +93,7 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
             })
             : [];
     const _loadAlphabets = () => {
+        // eslint-disable-next-line prefer-const
         let alphabets: string[] = [];
         for (let i = 65; i < 91; i++) {
             alphabets.push(
@@ -93,6 +103,7 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
         setaz(alphabets);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _alphabetChange = async (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
         setstate({ ...state, searchText: "", indexSelectedKey: item.props.itemKey, isLoading: true });
         setalphaKey(item.props.itemKey);
@@ -124,19 +135,25 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
         });
     };
 
+    // eslint-disable-next-line prefer-const
     let _searchUsers = async (searchText: string) => {
         try {
             setstate({ ...state, searchText: searchText, isLoading: true });
             if (searchText.length > 0) {
+                // eslint-disable-next-line prefer-const
                 let searchProps: string[] = props.searchProps && props.searchProps.length > 0 ?
                     props.searchProps.split(',') : ['FirstName', 'LastName', 'WorkEmail', 'Department'];
+                // eslint-disable-next-line @typescript-eslint/no-inferrable-types
                 let qryText: string = '';
+                // eslint-disable-next-line prefer-const
                 let finalSearchText: string = searchText ? searchText.replace(/ /g, '+') : searchText;
                 if (props.clearTextSearchProps) {
+                    // eslint-disable-next-line prefer-const
                     let tmpCTProps: string[] = props.clearTextSearchProps.indexOf(',') >= 0 ? props.clearTextSearchProps.split(',') : [props.clearTextSearchProps];
                     if (tmpCTProps.length > 0) {
                         searchProps.map((srchprop, index) => {
-                            let ctPresent: any[] = filter(tmpCTProps, (o) => { return o.toLowerCase() == srchprop.toLowerCase(); });
+                            // eslint-disable-next-line prefer-const, @typescript-eslint/no-explicit-any
+                            let ctPresent: any[] = filter(tmpCTProps, (o: string) => { return o.toLowerCase() == srchprop.toLowerCase(); });
                             if (ctPresent.length > 0) {
                                 if(index == searchProps.length - 1) {
                                     qryText += `${srchprop}:${searchText}*`;
@@ -185,19 +202,25 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
         }
     };
 
+    const _searchUsersDebounced = debounce(500, _searchUsers);
+
+    // const _searchBoxChanged = (event: React.ChangeEvent<HTMLInputElement>, newvalue: string): void => {
     const _searchBoxChanged = (newvalue: string): void => {
         setCurrentPage(1);
-        _searchUsers(newvalue);
+        _searchUsersDebounced(newvalue);
     };
-    _searchUsers = debounce(500, _searchUsers);
+    // _searchUsers = debounce(500, _searchUsers);
 
     const _sortPeople = async (sortField: string) => {
         let _users = [...state.users];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         _users = _users.sort((a: any, b: any) => {
             switch (sortField) {
                 // Sorte by FirstName
                 case "FirstName":
+                    // eslint-disable-next-line no-case-declarations
                     const aFirstName = a.FirstName ? a.FirstName : "";
+                    // eslint-disable-next-line no-case-declarations
                     const bFirstName = b.FirstName ? b.FirstName : "";
                     if (aFirstName.toUpperCase() < bFirstName.toUpperCase()) {
                         return -1;
@@ -209,7 +232,9 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
                     break;
                 // Sort by LastName
                 case "LastName":
+                    // eslint-disable-next-line no-case-declarations
                     const aLastName = a.LastName ? a.LastName : "";
+                    // eslint-disable-next-line no-case-declarations
                     const bLastName = b.LastName ? b.LastName : "";
                     if (aLastName.toUpperCase() < bLastName.toUpperCase()) {
                         return -1;
@@ -221,9 +246,11 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
                     break;
                 // Sort by Location
                 case "Location":
+                    // eslint-disable-next-line no-case-declarations
                     const aBaseOfficeLocation = a.BaseOfficeLocation
                         ? a.BaseOfficeLocation
                         : "";
+                    // eslint-disable-next-line no-case-declarations
                     const bBaseOfficeLocation = b.BaseOfficeLocation
                         ? b.BaseOfficeLocation
                         : "";
@@ -243,7 +270,9 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
                     break;
                 // Sort by JobTitle
                 case "JobTitle":
+                    // eslint-disable-next-line no-case-declarations
                     const aJobTitle = a.JobTitle ? a.JobTitle : "";
+                    // eslint-disable-next-line no-case-declarations
                     const bJobTitle = b.JobTitle ? b.JobTitle : "";
                     if (aJobTitle.toUpperCase() < bJobTitle.toUpperCase()) {
                         return -1;
@@ -255,7 +284,9 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
                     break;
                 // Sort by Department
                 case "Department":
+                    // eslint-disable-next-line no-case-declarations
                     const aDepartment = a.Department ? a.Department : "";
+                    // eslint-disable-next-line no-case-declarations
                     const bDepartment = b.Department ? b.Department : "";
                     if (aDepartment.toUpperCase() < bDepartment.toUpperCase()) {
                         return -1;
@@ -349,6 +380,7 @@ const DirectoryHook: React.FC<IDirectoryProps> = (props) => {
                                                             label={strings.DropDownPlaceLabelMessage}
                                                             options={orderOptions}
                                                             selectedKey={state.searchString}
+                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                                             onChange={(ev: any, value: IDropdownOption) => {
                                                                 _sortPeople(value.key.toString());
                                                             }}

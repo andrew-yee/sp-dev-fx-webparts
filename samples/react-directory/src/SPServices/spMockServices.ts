@@ -1,5 +1,7 @@
 import { ISPServices } from "./ISPServices";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as mockdata from './MockDataSearch.json';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { cloneDeep } from '@microsoft/sp-lodash-subset';
 interface MinimalMockUser {
     FirstName: string;
@@ -88,6 +90,7 @@ export class spMockServices implements ISPServices {
         }
 
 
+        // eslint-disable-next-line no-extra-boolean-cast
         const searchresult = !!searchFirstName ?
             this.sampleData.filter(p => p.FirstName.toLowerCase().indexOf(filtervalue) === 0) :
             this.sampleData.filter(p => p.LastName.toLowerCase().indexOf(filtervalue) === 0);
@@ -109,6 +112,7 @@ export class spMockServices implements ISPServices {
 
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public async searchUsersNew(searchString: string, srchQry: string, isInitialSearch: boolean, pageNumber?: number) {
         let filtervalue = searchString.trim().toLowerCase();
         if (searchString.length > 0 && filtervalue.lastIndexOf("*") == searchString.length - 1) {
@@ -120,6 +124,7 @@ export class spMockServices implements ISPServices {
         }
 
 
+        // eslint-disable-next-line no-extra-boolean-cast
         const searchresult = !!isInitialSearch ?
             this.sampleData.filter(p => p.FirstName.toLowerCase().indexOf(filtervalue) === 0) :
             this.sampleData.filter(p => p.LastName.toLowerCase().indexOf(filtervalue) === 0);

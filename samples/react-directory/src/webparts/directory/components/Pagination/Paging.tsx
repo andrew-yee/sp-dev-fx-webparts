@@ -33,9 +33,13 @@ const Paging: React.FC<IPagingProps> = (props) => {
 			<div className={styles.searchWp__paginationContainer__pagination}>
 				<Pagination
 					activePage={currentPage}
+					// eslint-disable-next-line react/self-closing-comp
 					firstPageText={<i className='ms-Icon ms-Icon--DoubleChevronLeft' aria-hidden='true'></i>}
+					// eslint-disable-next-line react/self-closing-comp
 					lastPageText={<i className='ms-Icon ms-Icon--DoubleChevronRight' aria-hidden='true'></i>}
+					// eslint-disable-next-line react/self-closing-comp
 					prevPageText={<i className='ms-Icon ms-Icon--ChevronLeft' aria-hidden='true'></i>}
+					// eslint-disable-next-line react/self-closing-comp
 					nextPageText={<i className='ms-Icon ms-Icon--ChevronRight' aria-hidden='true'></i>}
 					activeLinkClass={styles.active}
 					itemsCountPerPage={props.itemsCountPerPage}
