@@ -65,7 +65,7 @@ export const ExpandedCard: React.FunctionComponent<IExpandedCardProps> = (
               <Text variant="smallPlus">{user.email}</Text>
             </Link>
           </Stack>
-          <div className={hoverCardStyles.separatorHorizontal}></div>
+          <div className={hoverCardStyles.separatorHorizontal} />
           </>
           )
         }
@@ -88,7 +88,7 @@ export const ExpandedCard: React.FunctionComponent<IExpandedCardProps> = (
                 <Text variant="smallPlus">{user.workPhone}</Text>
               </Link>
             </Stack>
-            <div className={hoverCardStyles.separatorHorizontal}></div>
+            <div className={hoverCardStyles.separatorHorizontal} />
           </>
         )}
         {user.location && (
@@ -131,7 +131,7 @@ export const ExpandedCard: React.FunctionComponent<IExpandedCardProps> = (
               pictureUrl={manager.pictureUrl}
               text={manager.displayName}
               secondaryText={manager.title}
-            ></Person>
+            />
           </>
         )}
       </Stack>

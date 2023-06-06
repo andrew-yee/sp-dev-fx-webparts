@@ -9,6 +9,11 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
+    "inlineSources": false,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "noUnusedLocals": false,
+    "outDir": "lib",
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@microsoft"
@@ -23,5 +28,14 @@
       "es2015.collection",
       "es2015.promise"
     ]
-  }
+  },
+  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
 }

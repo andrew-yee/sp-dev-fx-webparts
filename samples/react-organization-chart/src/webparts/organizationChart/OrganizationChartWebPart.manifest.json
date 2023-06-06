@@ -25,5 +25,6 @@
       "showAllManagers": true,
       "showActionsBar": true
     }
-  }]
+  }],
+  "supportedHosts": ["SharePointWebPart"]
 }

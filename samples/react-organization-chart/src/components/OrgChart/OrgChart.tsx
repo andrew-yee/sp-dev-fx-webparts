@@ -95,11 +95,11 @@ export const OrgChart: React.FunctionComponent<IOrgChartProps> = (
                   onUserSelected={onUserSelected}
                   selectedUser={currentUser}
                   showActionsBar={showActionsBar}
-                ></PersonCard>
+                />
                 <div
                   key={getGUID()}
                   className={orgChartClasses.separatorVertical}
-                ></div>
+                />
               </>
             );
           }
@@ -113,7 +113,7 @@ export const OrgChart: React.FunctionComponent<IOrgChartProps> = (
                   onUserSelected={onUserSelected}
                   selectedUser={currentUser}
                   showActionsBar={showActionsBar}
-                ></PersonCard>
+                />
               </>
             );
           }
@@ -246,7 +246,7 @@ export const OrgChart: React.FunctionComponent<IOrgChartProps> = (
             size={SpinnerSize.large}
             label={"loading Organization Chart..."}
             labelPosition={"bottom"}
-          ></Spinner>
+          />
         </Stack>
       </Overlay>
     );
@@ -283,11 +283,11 @@ export const OrgChart: React.FunctionComponent<IOrgChartProps> = (
             onUserSelected={onUserSelected}
             selectedUser={currentUser}
             showActionsBar={showActionsBar}
-          ></PersonCard>
+          />
           {renderDirectReports.length && (
             <>
-              <div className={orgChartClasses.separatorVertical}></div>
-              <div className={orgChartClasses.separatorHorizontal}></div>
+              <div className={orgChartClasses.separatorVertical}/>
+              <div className={orgChartClasses.separatorHorizontal}/>
             </>
           )}
         </Stack>

@@ -30,3 +30,7 @@ obj
 
 # Styles Generated Code
 *.scss.ts
+
+# SPFx SharePoint Framework
+.heft
+release

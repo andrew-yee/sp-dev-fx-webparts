@@ -1,0 +1,363 @@
+Upgrading to SPFx version 1.17.2.
+--------------------------------
+(Substitute your own filepaths.)
+
+PS Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart> m365 spfx doctor --spfxVersion 1.17.2 --output text
+
+CLI for Microsoft 365 SharePoint Framework doctor
+Verifying configuration of your system for working with the SharePoint Framework
+
+× SharePoint Framework v1.4.1 found, v1.17.2 required
+√ Node v16.19.0
+√ yo v4.3.1
+√ gulp-cli v2.3.0
+× typescript v3.9.7 installed in the project
+ 
+Recommended fixes:
+
+- npm i -g @microsoft/generator-sharepoint@1.17.2
+- npm un typescript
+
+
+PS Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart> m365 spfx project upgrade --shell powershell --output text
+Execute in powershell  
+-----------------------
+(Some of the instruction from the upgrade tool have been modified here to resolve some yarn errors or gulp errors.) 
+
+Stay on version 0.2.2 of rush-stack-compiler-4.5 to avoid error message about "TSLint is not supported for rush-stack-compiler-4.X packages."
+(@microsoft/rush-stack-compiler-4.5@0.2.2 )
+
+yarn remove @microsoft/sp-webpart-workbench @types/chai @types/mocha @types/es6-promise
+yarn add --exact @microsoft/sp-core-library@1.17.2 @microsoft/sp-lodash-subset@1.17.2 @microsoft/sp-office-ui-fabric-core@1.17.2 @microsoft/sp-webpart-base@1.17.2 @microsoft/sp-property-pane@1.17.2 @microsoft/sp-adaptive-card-extension-base@1.17.2 @fluentui/react@7.199.1 react@17.0.1 react-dom@17.0.1 office-ui-fabric-react@7.199.1 tslib@2.3.1 @types/react@16.8.8 @types/react-dom@16.8.3 @types/webpack-env@1.13.1 @types/es6-promise@0.0.33
+yarn add --exact --dev @microsoft/eslint-plugin-spfx@1.17.2 @microsoft/eslint-config-spfx@1.17.2 @microsoft/sp-build-web@1.17.2 @microsoft/sp-module-interfaces@1.17.2 @microsoft/rush-stack-compiler-4.5@0.2.2 eslint@8.7.0 @types/react@17.0.45 @types/react-dom@17.0.17 typescript@4.5.5 ajv@6.12.5 @types/webpack-env@1.15.2 @rushstack/eslint-config@2.5.1 eslint-plugin-react-hooks@4.3.0 gulp@4.0.2 tslint-microsoft-contrib@5.0.0
+
+Original recommendation. Use yarn commands above, instead.
+(Do not add @microsoft/sp-tslint-rules. It gives a yarn error because it conflicts with Node 16.19.0. It is not needed.)
+// npm un -D @microsoft/sp-webpart-workbench @types/chai @types/mocha @types/es6-promise
+// npm i -SE @microsoft/sp-core-library@1.17.2 @microsoftg/sp-lodash-subset@1.17.2 @microsoft/sp-office-ui-fabric-core@1.17.2 @microsoft/sp-webpart-base@1.17.2 @microsoft/sp-property-pane@1.17.2 @microsoft/sp-adaptive-card-extension-base@1.17.2 @fluentui/react@7.199.1 react@17.0.1 react-dom@17.0.1 office-ui-fabric-react@7.199.1 tslib@2.3.1 @types/react@16.8.8 @types/react-dom@16.8.3 @types/webpack-env@1.13.1 @types/es6-promise@0.0.33
+// npm i -DE @microsoft/eslint-plugin-spfx@1.17.2 @microsoft/eslint-config-spfx@1.17.2 @microsoft/sp-build-web@1.17.2 @microsoft/sp-module-interfaces@1.17.2 @microsoft/rush-stack-compiler-4.5@0.5.0 eslint@8.7.0 @types/react@17.0.45 @types/react-dom@17.0.17 typescript@4.5.5 ajv@6.12.5 @types/webpack-env@1.15.2 @rushstack/eslint-config@2.5.1 eslint-plugin-react-hooks@4.3.0 @microsoft/sp-tslint-rules@1.14.0 gulp@4.0.2 tslint-microsoft-contrib@5.0.0
+// npm dedupe
+
+@'
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/sass.schema.json"
+}
+'@ | Out-File -FilePath "config\sass.json" -Encoding "UTF8"
+
+@'
+require('@rushstack/eslint-config/patch/modern-module-resolution');
+module.exports = {
+  extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
+  parserOptions: { tsconfigRootDir: __dirname }
+};
+'@ | Out-File -FilePath ".eslintrc.js" -Encoding "UTF8"
+
+Remove-Item "config\copy-assets.json"
+
+New-Item -Path "Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart" -Name "teams" -ItemType "directory"
+Copy-Item "C:\Users\Andy\AppData\Local\Yarn\Data\global\node_modules\@pnp\cli-microsoft365\dist\m365\spfx\commands\project\project-upgrade\assets\tab20x20.png" -Destination "Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart\teams\0338da15-07f9-4a53-b267-d790fb495cca_outline.png"
+Copy-Item "C:\Users\Andy\AppData\Local\Yarn\Data\global\node_modules\@pnp\cli-microsoft365\dist\m365\spfx\commands\project\project-upgrade\assets\tab96x96.png" -Destination "Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart\teams\0338da15-07f9-4a53-b267-d790fb495cca_color.png"
+
+
+./.yo-rc.json
+-------------
+Update version in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.17.2"
+  }
+}
+
+Update @microsoft/teams-js SDK version in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "sdkVersions": {
+      "@microsoft/teams-js": "2.9.1"
+    }
+  }
+}
+
+Update nodeVersion in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "nodeVersion": "16.19.0"
+  }
+}
+
+Update @microsoft/microsoft-graph-client SDK version in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "sdkVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2"
+    }
+  }
+}
+
+Update isDomainIsolated in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "isDomainIsolated": false
+  }
+}
+
+
+./config/serve.json
+-------------------
+Update serve.json initialPage URL:
+{
+  "initialPage": "https://{tenantDomain}/_layouts/workbench.aspx"
+}
+
+Update serve.json schema URL:
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json"
+}
+
+From serve.json remove the api property:
+
+
+
+./package.json
+--------------
+Update package.json engines.node property:
+{
+  "engines": {
+    "node": ">=16.13.0 <17.0.0"
+  }
+}
+
+Add resolution for package @types/react:
+{
+  "resolutions": {
+    "@types/react": "16.8.8"
+  }
+}
+
+
+src\components\OrgChart\OrgChart.module.scss
+--------------------------------------------
+Add scss file import:
+@import '~@fluentui/react/dist/sass/References.scss';
+
+Remove scss file import:
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss'
+
+
+./tsconfig.json
+---------------
+
+Add noImplicitAny in tsconfig.json:
+{
+  "compilerOptions": {
+    "noImplicitAny": true
+  }
+}
+
+Update tsconfig.json extends property:
+{
+  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json"
+}
+
+Add to the tsconfig.json include property:
+{
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
+}
+
+(original package upgrade recommendation omitted "src/**/*.ts", but it is required in order to fix a gulp bundle error 
+"Entry module not found".)
+
+Update tsconfig.json inlineSources value:
+{
+  "compilerOptions": {
+    "inlineSources": false
+  }
+}
+
+Update tsconfig.json strictNullChecks value:
+{
+  "compilerOptions": {
+    "strictNullChecks": false
+  }
+}
+
+Update tsconfig.json noUnusedLocals value:
+{
+  "compilerOptions": {
+    "noUnusedLocals": false
+  }
+}
+
+Update tsconfig.json outDir value:
+{
+  "compilerOptions": {
+    "outDir": "lib"
+  }
+}
+
+Update tsconfig.json exclude property:
+{
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}
+
+
+./config/package-solution.json
+------------------------------
+In package-solution.json add developer section:
+{
+  "solution": {
+    "developer": {
+      "name": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "websiteUrl": "",
+      "mpnId": "Undefined-1.15.0"
+    }
+  }
+}
+
+In package-solution.json add metadata section:
+{
+  "solution": {
+    "metadata": {
+      "shortDescription": {
+        "default": "react-organization-chart description"
+      },
+      "longDescription": {
+        "default": "react-organization-chart description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    }
+  }
+}
+
+In package-solution.json add features for components:
+{
+  "solution": {
+    "features": [
+      {
+        "title": "react-organization-chart OrganizationChartWebPart Feature",
+        "description": "The feature that activates OrganizationChartWebPart from the react-organization-chart solution.",
+        "id": "0338da15-07f9-4a53-b267-d790fb495cca",
+        "version": "1.0.0.0",
+        "componentIds": [
+          "0338da15-07f9-4a53-b267-d790fb495cca"
+        ]
+      }
+    ]
+  }
+}
+
+Update package-solution.json isDomainIsolated:
+{
+  "solution": {
+    "isDomainIsolated": false
+  }
+}
+
+
+./.gitignore
+------------
+To .gitignore add the '.heft' folder:
+.heft
+
+To .gitignore add the 'release' folder:
+release
+
+
+./.npmignore
+------------
+Create the .npmignore file:
+!dist
+config
+
+gulpfile.js
+
+release
+src
+temp
+
+tsconfig.json
+tslint.json
+
+*.log
+
+.yo-rc.json
+.vscode
+
+
+
+./config/deploy-azure-storage.json
+----------------------------------
+Update deploy-azure-storage.json workingDir:
+{
+  "workingDir": "./release/assets/"
+}
+
+
+./gulpfile.js
+-------------
+Before 'build.initialize(require('gulp'));' add the serve task:
+var getTasks = build.rig.getTasks;
+build.rig.getTasks = function () {
+  var result = getTasks.call(build.rig);
+
+  result.set('serve', result.get('serve-deprecated'));
+
+  return result;
+};
+
+Resolve the following error in gulpfile.js:
+"Error: Cannot find module '@microsoft/gulp-core-build-typescript/lib/TypeScriptConfiguration'
+Require stack:
+- Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart\gulpfile.js
+...
+"
+
+As a workaround, comment out the use of TypeScriptConfiguration.
+// const typeScriptConfig = require('@microsoft/gulp-core-build-typescript/lib/TypeScriptConfiguration');
+// typeScriptConfig.TypeScriptConfiguration.setTypescriptCompiler(require('typescript'));
+
+"TypeError: Cannot set property 'enabled' of undefined
+    at Object.<anonymous> (Z:\repos\github\sp-dev-fx-webparts\samples\react-organization-chart\gulpfile.js:15:22)"
+    
+Remove reference to build.tslint and add reference to build.tslintCmd:
+// build.tslint.enabled = false;
+build.tslintCmd.enabled = false;
+
+
+tslint.json
+-----------
+
+Remove tslint.json.
+This fixes the error "TSLint is not supported for rush-stack-compiler-4.X packages.".
+
+
+src\webparts\organizationChart\OrganizationChartWebPart.ts
+----------------------------------------------------------
+Refactor the code to import property pane property from the @microsoft/sp-property-pane npm package instead of the @microsoft/sp-webpart-base package:
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
+import { IPropertyPaneConfiguration, PropertyPaneTextField, PropertyPaneToggle } from "@microsoft/sp-property-pane";
+
+
+src\webparts\organizationChart\OrganizationChartWebPart.manifest.json
+---------------------------------------------------------------------
+Update the supportedHosts property in the manifest:
+{
+  "supportedHosts": ["SharePointWebPart"]
+}
+
+
+Other:
+------
+I renamed .eslintrc.json to .eslintrc.json.bak in case it is not needed and might cause compilation issues.
+Were the contents supposed to be copied into .eslintrc.js?
+
+
