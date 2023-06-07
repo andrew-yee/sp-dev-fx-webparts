@@ -30,6 +30,7 @@ export default class TreeOrgChartWebPart extends BaseClientSideWebPart<ITreeOrgC
     pnpSetup({
       spfxContext: this.context
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     graph.setup(this.context as any);
     //Migration old Config Settings
     if (!this.properties.viewType) {

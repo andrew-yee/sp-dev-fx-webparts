@@ -17,6 +17,7 @@ export default class SPServices {
    * user:string
    */
   public async getUserProfileProperty(user: string, property: string) {
+    // eslint-disable-next-line prefer-const, @typescript-eslint/no-explicit-any
     let UserProperty: any = await sp.profiles.getUserProfilePropertyFor(
       user,
       property

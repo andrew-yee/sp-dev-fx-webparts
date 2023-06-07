@@ -34,7 +34,7 @@ export enum TreeOrgChartType {
   CompanyHierarchy = 2,
   ShowOtherTeam = 4
 }
-const LIVE_PERSONA_COMPONENT_ID: string = '914330ee-2df2-4f6e-a858-30c23a812408';
+const LIVE_PERSONA_COMPONENT_ID = '914330ee-2df2-4f6e-a858-30c23a812408';
 
 export default class TreeOrgChart extends React.Component<
   ITreeOrgChartProps,
@@ -44,7 +44,8 @@ export default class TreeOrgChart extends React.Component<
   private SPService: SPService;
   private GraphService: GraphService;
 
-  constructor(props) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(props: any) {
     super(props);
 
     this.SPService = new SPService(this.props.context);
@@ -55,12 +56,14 @@ export default class TreeOrgChart extends React.Component<
     };
   }
   //
-  private handleTreeOnChange(treeData) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private handleTreeOnChange(treeData: any) {
     this.setState({ treeData });
   }
 
   public async componentDidUpdate(
     prevProps: ITreeOrgChartProps,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     prevState: ITreeOrgChartState
   ) {
     if (
@@ -80,6 +83,7 @@ export default class TreeOrgChart extends React.Component<
       const sharedLibrary = await this._loadSPComponentById(
         LIVE_PERSONA_COMPONENT_ID
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const livePersonaCard: any = sharedLibrary.LivePersonaCard;
       this.setState({ livePersonaCard: livePersonaCard });
     }
@@ -87,8 +91,10 @@ export default class TreeOrgChart extends React.Component<
     await this.loadOrgchart();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async _loadSPComponentById(componentId: string): Promise<any> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const component: any = await SPComponentLoader.loadComponentById(
         componentId
       );
@@ -127,16 +133,19 @@ export default class TreeOrgChart extends React.Component<
     // Test if show only my Team or All Organization Chart
     switch (this.props.viewType) {
       case TreeOrgChartType.CompanyHierarchy:
+        // eslint-disable-next-line no-case-declarations
         const spcurrentlogin = `i:0#.f|membership|${currentUser}`;
         currentUserProperties = await this.SPService.getUserProperties(
           spcurrentlogin
         );
+        // eslint-disable-next-line no-case-declarations
         const treeManagers = await this.buildOrganizationChart(
           currentUserProperties
         );
         if (treeManagers) this.treeData.push(treeManagers);
         break;
       case TreeOrgChartType.MyTeam:
+        // eslint-disable-next-line no-case-declarations
         const myteam = await this.buildMyTeamOrganizationChart(
           currentUser
         );
@@ -162,6 +171,7 @@ export default class TreeOrgChart extends React.Component<
     Build Organization Chart from currentUser
     @parm : currentUserProperties
   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async buildOrganizationChart(currentUserProperties: any) {
     // Get Managers
     let treeManagers: ITreeData | null = null;
@@ -205,7 +215,9 @@ export default class TreeOrgChart extends React.Component<
 
   public buildDefaultPersonaCard(user: IGraphUser): JSX.Element {
 
+    // eslint-disable-next-line prefer-const
     let spUser: IPersonaSharedProps = {};
+    // eslint-disable-next-line prefer-const
     let imageInitials: string[] = user.displayName ? user.displayName.split(" ") : [];
     //https://graph.microsoft.com/v1.0/users/${upn}/photo/$value
     // Persona Card Properties
@@ -241,6 +253,7 @@ export default class TreeOrgChart extends React.Component<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   private async getDirectReportsUsers(upn?: string, level: number = 1, expanded: boolean = false): Promise<ITreeData[] | null> {
     if (!upn) { return null; }
 
@@ -310,6 +323,7 @@ export default class TreeOrgChart extends React.Component<
             isRequired={true}
             disabled={false}
             defaultSelectedUsers={selectedTeamleader ? [selectedTeamleader] : undefined}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             selectedItems={(items: any) => {
               if (this.props.updateTeamLeader) {
                 if (items.length > 0) {
@@ -331,7 +345,7 @@ export default class TreeOrgChart extends React.Component<
           <Spinner
             size={SpinnerSize.large}
             label="Loading Organization Chart ..."
-          ></Spinner>
+          />
         ) : null}
         <div className={styles.treeContainer}>
           <SortableTree
@@ -340,11 +354,13 @@ export default class TreeOrgChart extends React.Component<
             canDrag={false}
             rowHeight={70}
             maxDepth={this.props.maxLevels}
-            generateNodeProps={rowInfo => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            generateNodeProps={(rowInfo: any) => {
               return !this.props.detailBehavoir ?
                 ({
                   buttons: [
                     <IconButton
+                      key="ContactInfo"
                       disabled={false}
                       checked={false}
                       iconProps={{ iconName: "ContactInfo" }}
