@@ -256,3 +256,22 @@ Shimmer.types.d.ts(48, 5): The expected type comes from property 'theme' which i
 Workaround: Try staying at office-ui-fabric-react@6.194.0
 Did not help.
 sp-office-ui-fabric-core
+
+Error in src/services/TemplateService/TemplateService.ts(103,13): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+Workaround given here: https://stackoverflow.com/questions/56833469/typescript-error-ts7053-element-implicitly-has-an-any-type
+Make the following change:
+
+ // let processedProps = {};
+    let processedProps: {[index: string]:any} = {};
+
+...
+processedProps[configuration.field] = processedValue;
+...
+
+Error about immutability-helper.
+"Error - [tsc] src/webparts/peoplesearch/PeopleSearchWebPart.ts(69,29): error TS2349: This expression is not callable.
+[15:13:49] [tsc] Type 'typeof import("C:/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/immutability-helper/index")' has no call signatures."
+
+Solution: https://github.com/kolodny/immutability-helper/issues/96
+// import * as update from 'immutability-helper';
+import update from 'immutability-helper';

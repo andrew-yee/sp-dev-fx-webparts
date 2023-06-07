@@ -18,7 +18,7 @@ import {
   PropertyPaneDynamicField,
   PropertyPaneDynamicFieldSet
 } from "@microsoft/sp-property-pane";
-import * as update from 'immutability-helper';
+import update from 'immutability-helper';
 import * as strings from "PeopleSearchWebPartStrings";
 import { IPeopleSearchWebPartProps } from "./IPeopleSearchWebPartProps";
 import { ISearchService, MockSearchService, SearchService } from "../../services/SearchService";
@@ -29,7 +29,7 @@ import { TemplateService } from "../../services/TemplateService/TemplateService"
 export default class PeopleSearchWebPart extends BaseClientSideWebPart<IPeopleSearchWebPartProps> {
   private _searchService: ISearchService;
   private _templateService: TemplateService;
-  private _placeholder = null;
+  private _placeholder:any = null;
   private _themeProvider: ThemeProvider;
   private _themeVariant: IReadonlyTheme;
   private _initComplete = false;

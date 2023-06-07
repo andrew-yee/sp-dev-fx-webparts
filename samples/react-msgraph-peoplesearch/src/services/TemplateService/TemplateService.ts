@@ -94,7 +94,8 @@ export class TemplateService {
      */
     public static processFieldsConfiguration<T>(fieldsConfiguration: IComponentFieldsConfiguration[], item: any): T {
 
-        let processedProps = {};
+        // let processedProps = {};
+        let processedProps: {[index: string]:any} = {};
 
         // Use configuration
         fieldsConfiguration.map(configuration => {
