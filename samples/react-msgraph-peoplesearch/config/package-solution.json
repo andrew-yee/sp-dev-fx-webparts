@@ -13,7 +13,18 @@
     "version": "2.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
-    "isDomainIsolated": false
+    "isDomainIsolated": false,
+    "features": [
+      {
+        "title": "spfx-msgraph-peoplesearch MsGraphPeopleSearchWebPart Feature",
+        "description": "The feature that activates MsGraphPeopleSearchWebPart from the spfx-msgraph-peoplesearch solution.",
+        "id": "0890f045-1475-4b52-8e1d-28f9ef6943ff",
+        "version": "2.0.0.0",
+        "componentIds": [
+          "0890f045-1475-4b52-8e1d-28f9ef6943ff"
+        ]
+      }
+    ]
   },
   "paths": {
     "zippedPackage": "solution/spfx-msgraph-peoplesearch.sppkg"

@@ -10,6 +10,7 @@ export interface IPeopleShimmerViewProps {
     templateContext: ITemplateContext;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IPeopleShimmerViewState {
 }
 
@@ -86,9 +87,9 @@ export class PeopleShimmerViewComponent extends React.Component<IPeopleShimmerVi
     private _getPersonaCardShimmers(personaSize: number): JSX.Element {
 
         const shimmerContent = <div
-                                    style={{ 
+                                    style={{
                                         display: 'flex' ,
-                                        marginBottom: 15  
+                                        marginBottom: 15
                                     }}
                                 >
                                     <div style={{
@@ -96,8 +97,8 @@ export class PeopleShimmerViewComponent extends React.Component<IPeopleShimmerVi
                                         paddingRight: 16,
                                         paddingBottom: 8,
                                         width: '100%'
-                                    }}>   
-                                        
+                                    }}>
+
                                         <Shimmer
                                             theme={this.props.templateContext.themeVariant as ITheme}
                                             customElementsGroup={
@@ -121,7 +122,7 @@ export class PeopleShimmerViewComponent extends React.Component<IPeopleShimmerVi
                                                 />
                                             </div>
                                         }/>
-                                        
+
                                     </div>
                                 </div>;
 

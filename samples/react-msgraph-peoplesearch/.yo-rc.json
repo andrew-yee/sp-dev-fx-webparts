@@ -1,6 +1,6 @@
 {
   "@microsoft/generator-sharepoint": {
-    "version": "1.11.0",
+    "version": "1.17.2",
     "libraryName": "spfx-msgraph-peoplesearch",
     "libraryId": "98a8d9d1-47c4-477c-addd-ecae95b235cc",
     "environment": "spo",
@@ -8,6 +8,11 @@
     "framework": "react",
     "isCreatingSolution": true,
     "isDomainIsolated": false,
-    "componentType": "webpart"
+    "componentType": "webpart",
+    "sdkVersions": {
+      "@microsoft/teams-js": "2.9.1",
+      "@microsoft/microsoft-graph-client": "3.0.2"
+    },
+    "nodeVersion": "16.19.0"
   }
 }
