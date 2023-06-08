@@ -6,6 +6,7 @@ yarn add --exact --dev @microsoft/eslint-plugin-spfx@1.17.2 @microsoft/eslint-co
 
 Try staying at office-ui-fabric-react@6.194.0
 
+yarn add --exact office-ui-fabric-react@6.194.0
 
 
 Original recommendation:
@@ -275,3 +276,16 @@ Error about immutability-helper.
 Solution: https://github.com/kolodny/immutability-helper/issues/96
 // import * as update from 'immutability-helper';
 import update from 'immutability-helper';
+
+Error: 
+" Error - [tsc] src/components/PeopleViewComponent/PeopleShimmerViewComponent.tsx(103,45): error TS2322: Type 'import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@uifabric/styling/lib/interfaces/ITheme").ITheme' 
+is not assignable to type 'import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@fluentui/theme/lib/types/ITheme").ITheme'.
+"
+Try staying on office-ui-fabric-react@6.194.0
+
+https://github.com/microsoft-search/pnp-modern-search/issues/295
+
+yarn add --exact office-ui-fabric-react@6.194.0
+
+It did not fix the error.
+
