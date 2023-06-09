@@ -3,7 +3,9 @@ import Box from '@material-ui/core/Box';
 
 export interface ITabPanelProps {
     children?: React.ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     index: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any;
 }
 

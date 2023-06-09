@@ -1,3 +1,5 @@
+/* eslint-disable no-var */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 /* global _topvar, var2 */
 
 import * as PropTypes from 'prop-types';
@@ -12,13 +14,14 @@ import { TabPanel } from "./TabPanel";
 import * as ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import * as FileSaver from 'file-saver';
-import { MSGraphClient } from "@microsoft/sp-http";
+// import { MSGraphClient } from "@microsoft/sp-http";
 import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { MSGraphClientV3 } from '@microsoft/sp-http-msgraph';
 
 
 
@@ -63,8 +66,11 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
   public componentDidMount() {
 
     const { optionContext } = this;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const value = optionContext.options;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     optionContext.options.map((option, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const optionState = optionContext.getOptionState(option.key)!;
       if (optionState.available <= 0) {
         return null;
@@ -73,7 +79,8 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
     this.forceUpdate();
   }
 
-  public a11yProps(index) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public a11yProps(index: any) {
     return {
       id: `scrollable-auto-tab-${index}`,
       'aria-controls': `scrollable-auto-tabpanel-${index}`,
@@ -85,12 +92,15 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
   }
 
   private saveAsProfile = (imageBlob: Blob) => {
-    var reader = new FileReader();
+    const MSGRAPH_CLIENT_VERSION = "3";
+    // var reader = new FileReader();
+    // eslint-disable-next-line no-var
     var tempfile = new File([imageBlob], "myavataaars.png", { type: "image/png" });
     this.props.context.msGraphClientFactory
-      .getClient().then((client: MSGraphClient) => {
+      .getClient(MSGRAPH_CLIENT_VERSION).then((client: MSGraphClientV3) => {
         client
           .api("me/photo/$value")
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           .version("v1.0").header("Content-Type", "image/png").put(tempfile, (err, res) => {
             if (!err) {
               this.setState({
@@ -108,15 +118,20 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
   }
 
   private onDownloadPNG = (isDownload: boolean) => {
+    // eslint-disable-next-line react/no-find-dom-node, @typescript-eslint/no-non-null-assertion
     const svgNode = ReactDOM.findDOMNode(this.avatarRef!);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const canvas = this.canvasRef!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const ctx = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const anyWindow = window as any;
     const DOMURL = anyWindow.URL || anyWindow.webkitURL || window;
 
-    const data = svgNode["outerHTML"];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = (svgNode as any)["outerHTML"];
     const img = new Image(canvas.width, canvas.height);
     const svg = new Blob([data], { type: 'image/svg+xml' });
     const url = DOMURL.createObjectURL(svg);
@@ -127,10 +142,13 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
       ctx.drawImage(img, 0, 0);
       ctx.restore();
       DOMURL.revokeObjectURL(url);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.canvasRef!.toBlob(imageBlob => {
         if (isDownload) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           this.triggerDownload(imageBlob!, 'myavataaars.png');
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           this.saveAsProfile(imageBlob!);
         }
       });
@@ -147,7 +165,9 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
   }
 
   public render(): React.ReactElement<IAvatarGeneratorProps> {
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
     let count: number = -1;
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
     let internalcount: number = -1;
     return (
       <div className={styles.avatarGenerator}>
@@ -161,12 +181,16 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
               />
               <ChoiceGroup styles={{ flexContainer: { display: "flex" } }}
                 defaultSelectedKey={AvatarStyle.Circle} options={options} onChange={this._onChange} label="Avatar Style" />
-              <Button variant="contained" style={{ marginTop: 10 }} color="primary" onClick={(ev) => {
+              <Button variant="contained" style={{ marginTop: 10 }} color="primary" onClick={
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                (ev) => {
                 this.onDownloadPNG(false);
               }}>
                 Save as Profile Picture
               </Button>
-              <Button variant="contained" style={{ marginTop: 10 }} color="primary" onClick={(ev) => {
+              <Button variant="contained" style={{ marginTop: 10 }} color="primary" onClick={
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                (ev) => {
                 this.onDownloadPNG(true);
               }}>
                 Download as Image
@@ -181,18 +205,24 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                   value={this.state.value}
                   onChange={(ev, num) => { this.setState({ value: num }); }}
                   aria-label="simple tabs example">
-                  {this.optionContext.options.map((option, index) => {
+                  {this.optionContext.options.map(
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    (option, index) => {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const optionState = this.optionContext.getOptionState(option.key)!;
                     if (optionState.available <= 0) {
                       return null;
                     } else {
                       count++;
-                      return <Tab label={option.label} {...this.a11yProps(count)}></Tab>;
+                      return <Tab label={option.label} {...this.a11yProps(count)}/>;
                     }
                   })}
                 </Tabs>
               </AppBar>
-              {this.optionContext.options.map((option, index) => {
+              {this.optionContext.options.map(
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                (option, index) => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const optionState = this.optionContext.getOptionState(option.key)!;
                 if (optionState.available <= 0) {
                   return null;
@@ -203,30 +233,38 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
-								
+
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+								// eslint-disable-next-line @typescript-eslint/no-explicit-any
 								this.optionContext.setData(selectedData as any);
+								// eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
 								let _topvar = "LongHairFro";
 								}}
                             ><Piece avatarStyle="Circle"
                               pieceType="top"
                               pieceSize="100"
-							  topType={type} /></div>);
+                  topType={type} /></div>);
                           })						  }
-						  
+
                       </TabPanel>;
-					  					  break;
+                      break;
                     case "accessoriesType":
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
@@ -235,35 +273,43 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                               accessoriesType={type} /></div>);
                           })}
                       </TabPanel>;
-					  break;
+          break;
 					case "hairColor":
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
 								selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
-								
+
                               }}
                             > <Piece
                                 avatarStyle=""
                                 pieceType="top"
                                 pieceSize="100"
 								hairColor={type} />
-                            </div>); 
+                            </div>);
                           })}
                       </TabPanel>;
-					  break;
+             break;
 					case "hatColor":
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             > <Piece
@@ -271,7 +317,8 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                                 pieceType="top"
                                 pieceSize="100"
                                 topType="WinterHat1"
-								hatColor={type} /></div>);
+                                // Note: hatColor property does not exist on Piece component.
+                                {...{ hatColor: type }} /></div>);
                           })}
                       </TabPanel>;
                       break;
@@ -279,10 +326,14 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
@@ -296,16 +347,20 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
                               pieceType="facialHair"
                               pieceSize="100"
-							  facialHairType="BeardMajestic"
+                              facialHairType="BeardMajestic"
                               facialHairColor={type} /></div>);
                           })}
                       </TabPanel>;
@@ -314,10 +369,14 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
@@ -331,16 +390,20 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
                               pieceType="clothe"
                               pieceSize="100"
-							  clotheType="ShirtCrewNeck"
+                              clotheType="ShirtCrewNeck"
                               clotheColor={type} /></div>);
                           })}
                       </TabPanel>;
@@ -349,16 +412,20 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
+                                // eslint-disable-next-line no-var
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
                               pieceType="graphics"
                               pieceSize="200"
-							  style={{filter: 'invert(1)'}}
+                              style={{filter: 'invert(1)'}}
                               graphicType={type} /></div>);
                           })}
                       </TabPanel>;
@@ -367,10 +434,13 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
@@ -384,10 +454,13 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
@@ -401,10 +474,13 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""
@@ -418,10 +494,13 @@ export default class AvatarGenerator extends React.Component<IAvatarGeneratorPro
                       return <TabPanel value={this.state.value} index={internalcount}>
                         {optionState.options
                           .map(type => {
+                            // eslint-disable-next-line react/jsx-key
                             return (<div className={styles.piece}
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               onClick={(ev) => {
                                 var selectedData = this.optionContext["_data"];
                                 selectedData[`${option.key}`] = type;
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 this.optionContext.setData(selectedData as any);
                               }}
                             ><Piece avatarStyle=""

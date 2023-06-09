@@ -1,0 +1,420 @@
+react-page-navigator
+--------------------
+switch to nvm 14. already updated from 1.11.1
+
+Stay with npm as package manager.
+
+npm install
+
+gulp bundle --ship
+works fine.
+
+
+react-avatar
+------------
+on npm 14.
+
+"How to fix "ReferenceError: primordials is not defined" in Node.js"
+https://stackoverflow.com/questions/55921442/how-to-fix-referenceerror-primordials-is-not-defined-in-node-js
+Otherwise, you need to use npm-force-resolutions as a preinstall script to be able to override the version of graceful-fs by changing your package.json file like this:
+
+{
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.11"
+  }
+}
+
+This did not help.
+
+
+npm i -DE gulp@4.0.2
+
+Did not help.
+
+
+Start over. Try to upgrade.
+
+If node 16 is not installed yet, install it.
+`> nvm install 16
+`
+
+Switch to node 16. node 14 also allows the packages to be installed.
+`> nvm use 16
+`
+
+
+If it fails, then close your command prompt shell and then start a new one (in administrator mode)
+and retry yarn install.
+If this doesn't work, you may need to restart your Windows computer for the changes to
+your path to take effect.
+
+
+0. Switch to node 16
+(After installing Node Version Manager)
+
+`> nvm install 16
+`
+
+`> nvm use 16
+`
+
+1. Use *yarn install* instead of *npm install* to install packages.
+Remove package-lock.json or rename package-lock.json to package-lock.json.bak.
+When *yarn install* is run, then a yarn.lock file will be created automatically.
+(Yarn is able to handle some dependency ordering issues that npm could not.)
+
+2. Use SPFx doctor (SharePoint Framework doctor)
+
+How to Use SPFx doctor (SharePoint Framework doctor) to analyze and suggest the changes to upgrade a project
+
+(e.g. to upgrade sp-dev-fx-webparts samples)
+
+Install CLI for Microsoft 365
+https://pnp.github.io/cli-microsoft365/
+`> yarn global add @pnp/cli-microsoft365
+`
+
+Run the cli for microsoft365. Use Windows command prompt or PowerShell.
+The global package might not run if your command prompt or PowerShell window is in administrator mode!
+In that case, open a different command prompt or PowerShell window to run m365.
+`> m365 login
+`
+
+Follow the instructions printed in the command prompt to open the microsoft login URL and enter the code from
+the command-line output into microsoft website code prompt field.
+
+
+Try SPFx doctor.
+
+Can try 1.17.2
+`> m365 spfx doctor --spfxVersion 1.17.2 --output text
+`
+Or can try an earlier version.
+(Recommendations for 1.15.0 seem to work for 1.16.0)
+`> m365 spfx doctor --spfxVersion 1.15.0 --output text
+`
+
+CLI for Microsoft 365 SharePoint Framework doctor
+Verifying configuration of your system for working with the SharePoint Framework
+
+× SharePoint Framework v1.11.0 found, v1.15.0 required
+√ Node v14.21.2
+√ yo v4.3.1
+√ gulp-cli v2.3.0
+√ bundled typescript used
+ 
+Recommended fixes:
+
+- npm i -g @microsoft/generator-sharepoint@1.15.0
+
+(The suggested commands might not be necessary. Try the suggestions from the spfx project upgrade command. Example below.)
+
+Try upgrading the sample. This will display the commands and steps to use.
+Example of working upgraded version of react-advanced-page-properties sample:
+https://github.com/andrew-yee/sp-dev-fx-webparts/tree/andrew-yee-upgrade-spfx-1.16.1-react-advanced-page-properties-sample
+
+(This command seems to work)
+`> m365 spfx project upgrade --shell powershell --output text
+`
+
+Some of the instructions have been modified from the upgrade tool's original recommendation.
+
+Remove the package-lock.json or rename it to package-lock.json.bak.
+
+Switch to yarn because it seems to have an easier time handling the dependencies.
+Run yarn install to fetch node modules and create a yarn.lock file.
+
+`> yarn install
+
+Execute in powershell
+-----------------------
+
+Install exact versions of these packages.
+
+Stay on version 0.2.2 of rush-stack-compiler-4.5 to avoid error message about "TSLint is not supported for rush-stack-compiler-4.X packages."
+(@microsoft/rush-stack-compiler-4.5@0.2.2 )
+
+yarn remove @microsoft/sp-tslint-rules @microsoft/sp-webpart-workbench @types/chai @types/mocha
+yarn add --exact @microsoft/sp-core-library@1.17.2 @microsoft/sp-lodash-subset@1.17.2 @microsoft/sp-office-ui-fabric-core@1.17.2 @microsoft/sp-webpart-base@1.17.2 @microsoft/sp-property-pane@1.17.2 @microsoft/sp-adaptive-card-extension-base@1.17.2 @fluentui/react@7.199.1 react@17.0.1 react-dom@17.0.1 office-ui-fabric-react@7.199.1 tslib@2.3.1
+yarn add --exact --dev @microsoft/eslint-plugin-spfx@1.17.2 @microsoft/eslint-config-spfx@1.17.2 @microsoft/sp-build-web@1.17.2 @microsoft/sp-module-interfaces@1.17.2 @microsoft/rush-stack-compiler-4.5@0.2.2 eslint@8.7.0 @types/react@17.0.45 @types/react-dom@17.0.17 typescript@4.5.5 ajv@6.12.5 @types/webpack-env@1.15.2 @rushstack/eslint-config@2.5.1 eslint-plugin-react-hooks@4.3.0 gulp@4.0.2
+
+Original suggestions by upgrade tool.
+// npm un -D @microsoft/sp-tslint-rules @microsoft/sp-webpart-workbench @types/chai @types/mocha
+// npm i -SE @microsoft/sp-core-library@1.17.2 @microsoft/sp-lodash-subset@1.17.2 @microsoft/sp-office-ui-fabric-core@1.17.2 @microsoft/sp-webpart-base@1.17.2 @microsoft/sp-property-pane@1.17.2 @microsoft/sp-adaptive-card-extension-base@1.17.2 @fluentui/react@7.199.1 react@17.0.1 react-dom@17.0.1 office-ui-fabric-react@7.199.1 tslib@2.3.1
+// npm i -DE @microsoft/eslint-plugin-spfx@1.17.2 @microsoft/eslint-config-spfx@1.17.2 @microsoft/sp-build-web@1.17.2 @microsoft/sp-module-interfaces@1.17.2 @microsoft/rush-stack-compiler-4.5@0.5.0 eslint@8.7.0 @types/react@17.0.45 @types/react-dom@17.0.17 typescript@4.5.5 ajv@6.12.5 @types/webpack-env@1.15.2 @rushstack/eslint-config@2.5.1 eslint-plugin-react-hooks@4.3.0 gulp@4.0.2
+// npm dedupe
+
+Use -Encoding "UTF8" option when creating files with PowerShell Out-File (or New-File) command.
+
+@'
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/sass.schema.json"
+}
+'@ | Out-File -FilePath "config\sass.json" -Encoding "UTF8"
+
+Remove-Item "tslint.json"
+
+@'
+require('@rushstack/eslint-config/patch/modern-module-resolution');
+module.exports = {
+  extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
+  parserOptions: { tsconfigRootDir: __dirname }
+};
+'@ | Out-File -FilePath ".eslintrc.js" -Encoding "UTF8"
+
+Remove-Item "config\copy-assets.json"
+
+./.yo-rc.json
+-------------
+Update version in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.17.2"
+  }
+}
+
+Update @microsoft/teams-js SDK version in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "sdkVersions": {
+      "@microsoft/teams-js": "2.9.1"
+    }
+  }
+}
+
+Update nodeVersion in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "nodeVersion": "14.21.2"
+  }
+}
+
+Update @microsoft/microsoft-graph-client SDK version in .yo-rc.json:
+{
+  "@microsoft/generator-sharepoint": {
+    "sdkVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2"
+    }
+  }
+}
+
+
+./config/serve.json
+-------------------
+Update serve.json initialPage URL:
+{
+  "initialPage": "https://{tenantDomain}/_layouts/workbench.aspx"
+}
+
+Update serve.json schema URL:
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json"
+}
+
+From serve.json remove the api property:
+
+
+
+./package.json
+--------------
+Update package.json engines.node property:
+{
+  "engines": {
+    "node": ">=16.13.0 <17.0.0"
+  }
+}
+
+Remove package.json property:
+{
+  "engines": "undefined"
+}
+
+
+src\webparts\avatarGenerator\components\AvatarGenerator.module.scss
+-------------------------------------------------------------------
+Remove scss file import:
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+Add scss file import:
+@import '~@fluentui/react/dist/sass/References.scss';
+
+
+./tsconfig.json
+---------------
+Add noImplicitAny in tsconfig.json:
+{
+  "compilerOptions": {
+    "noImplicitAny": true
+  }
+}
+
+Update tsconfig.json extends property:
+{
+  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.5/includes/tsconfig-web.json"
+}
+
+Remove tsconfig.json exclude property:
+{
+  "exclude": []
+}
+
+Add es2015.promise lib in tsconfig.json:
+{
+  "compilerOptions": {
+    "lib": [
+      "es2015.promise"
+    ]
+  }
+}
+
+Remove es6-promise type in tsconfig.json:
+{
+  "compilerOptions": {
+    "types": [
+      "es6-promise"
+    ]
+  }
+}
+
+
+./.gitignore
+------------
+To .gitignore add the '.heft' folder:
+.heft
+
+To .gitignore add the 'release' folder:
+release
+
+
+./config/package-solution.json
+------------------------------
+In package-solution.json add metadata section:
+{
+  "solution": {
+    "metadata": {
+      "shortDescription": {
+        "default": "react-avatars description"
+      },
+      "longDescription": {
+        "default": "react-avatars description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    }
+  }
+}
+
+In package-solution.json add features for components:
+{
+  "solution": {
+    "features": [
+      {
+        "title": "react-avatars AvatarGeneratorWebPart Feature",
+        "description": "The feature that activates AvatarGeneratorWebPart from the react-avatars solution.",
+        "id": "4052b4ec-72e9-4248-b411-18a4cd438d4b",
+        "version": "1.0.1.0",
+        "componentIds": [
+          "4052b4ec-72e9-4248-b411-18a4cd438d4b"
+        ]
+      }
+    ]
+  }
+}
+
+
+./.npmignore
+------------
+Create the .npmignore file:
+!dist
+config
+
+gulpfile.js
+
+release
+src
+temp
+
+tsconfig.json
+tslint.json
+
+*.log
+
+.yo-rc.json
+.vscode
+
+
+
+./config/deploy-azure-storage.json
+----------------------------------
+Update deploy-azure-storage.json workingDir:
+{
+  "workingDir": "./release/assets/"
+}
+
+
+./gulpfile.js
+-------------
+Before 'build.initialize(require('gulp'));' add the serve task:
+var getTasks = build.rig.getTasks;
+build.rig.getTasks = function () {
+  var result = getTasks.call(build.rig);
+
+  result.set('serve', result.get('serve-deprecated'));
+
+  return result;
+};
+
+
+
+./tslint.json
+-------------
+SKIP THIS. tslint does not work with rush-stack-compiler-4.5
+
+Update tslint.json extends property:
+{
+  "extends": "./node_modules/@microsoft/sp-tslint-rules/base-tslint.json"
+}
+
+
+src/webparts/avatarGenerator/components/AvatarGenerator.tsx
+--------------
+Error:
+" Error - [tsc] src/webparts/avatarGenerator/components/AvatarGenerator.tsx(14,28): error TS7016: Could not find a declaration file for module 'file-saver'. 'Z:/repos/github/sp-dev-fx-webparts/samples/react-avatar/node_modules/file-saver/dist/FileSaver.min.js' implicitly has an 'any' type."
+Auto-recommendation: " [tsc] Try `npm i --save-dev @types/file-saver` if it exists or add a new declaration (.d.ts) file containing `declare module 'file-saver';`"
+
+>yarn add @types/file-saver
+
+Original produces an error because hatColor is not defined as a property for Piece component.
+
+<Piece
+  avatarStyle=""
+  pieceType="top"
+  pieceSize="100"
+  topType="WinterHat1"
+  hatColor={type} />
+  
+"Error - [tsc] src/webparts/avatarGenerator/components/AvatarGenerator.tsx(321,9): error TS2769: No overload matches this call.
+[17:15:25] [tsc] Overload 1 of 2, '(props: Props | Readonly<Props>): Piece', gave the following error.
+[17:15:25] [tsc] Type '{ avatarStyle: string; pieceType: string; pieceSize: string; topType: string; hatColor: string; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<Piece> & Readonly<Props> & Readonly<{ children?: any; }>'."
+
+Use "type assertion" or "prop spreading" to work around this. (Solution found online)
+<Piece
+  avatarStyle=""
+  pieceType="top"
+  pieceSize="100"
+  topType="WinterHat1"
+  {...{ hatColor: type }} />
+  
+
+Switched from MSGraphClient to MSGraphClientV3:
+
+// import { MSGraphClient } from "@microsoft/sp-http";
+import { MSGraphClientV3 } from '@microsoft/sp-http-msgraph';
+
+<pre>
+getClient("3").then((client: MSGraphClientV3) => {
+</pre>
