@@ -25,8 +25,8 @@ export default class GraphService {
     }
 
     public async getUserManger(upn: string): Promise<IGraphUser> {
-
-        return await graph.users.getById(upn).manager.select(...graphUserSelect).get() as IGraphUser;
+        // return await graph.users.getById(upn).manager.select(...graphUserSelect).get() as IGraphUser;
+        return await graph.users.getById(upn).manager.select(...graphUserSelect)  as IGraphUser;
     }
     public async getUserDirectReports(upn: string, excludefilter?: boolean, filter?: string) {
 
