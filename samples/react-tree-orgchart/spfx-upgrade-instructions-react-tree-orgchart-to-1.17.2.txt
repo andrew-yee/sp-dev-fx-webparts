@@ -250,3 +250,26 @@ Update tslint.json extends property:
 
 
 Fix any linter warnings/errors in the file.
+
+GraphService.ts
+---------------
+
+In getUserManger(), remove the call to .get() from after the .select().
+
+public async getUserManger(upn: string): Promise<IGraphUser> {
+...
+// return await graph.users.getById(upn).manager.select(...graphUserSelect).get() as IGraphUser;
+return await graph.users.getById(upn).manager.select(...graphUserSelect)  as IGraphUser;
+
+
+// getUserDirectReports() still works. Test by choosing "Show other team" and selecting Teamleaeder to be "Miram Graham".
+public async getUserDirectReports(upn: string, excludefilter?: boolean, filter?: string) {
+  console.log('getUserDirectReports().');
+  /*
+  odata filter 
+   "code": "Request_UnsupportedQuery",
+  "message": "The specified filter to the reference property query is currently not supported.",
+  */
+  const directReports = await graph.users.getById(upn).directReports.select(...graphUserSelect).get() as IGraphUser[];
+  
+  // getUser() still works.

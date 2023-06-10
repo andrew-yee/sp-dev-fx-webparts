@@ -290,7 +290,7 @@ export default class TreeOrgChart extends React.Component<
   */
   private async buildMyTeamOrganizationChart(upn: string): Promise<ITreeData | null> {
 
-    const mymanager = await this.GraphService.getUserManger(upn);
+    const mymanager = await this.GraphService.getUserManager(upn);
     if (mymanager && mymanager.userPrincipalName) {
       return await this.getUsers(mymanager.userPrincipalName);
     }

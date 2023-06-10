@@ -6,7 +6,7 @@ define([], function () {
     "MaxLevels": "Max Depth",
     "ViewType": "View options",
     "TreeOrgChartTypeMyTeam": "Show my team",
-    "TreeOrgChartTypeCompany": "Show company hirachy",
+    "TreeOrgChartTypeCompany": "Show company hierarchy",
     "TreeOrgChartTypeShowOtherTeam": "Show other team",
     "FilterGroupName":"Account Name Filter",
     "ExcludeFilter": "Filter Logic",

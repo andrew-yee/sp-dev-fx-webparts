@@ -24,9 +24,9 @@ export default class GraphService {
         return await graph.users.getById(upn).select(...graphUserSelect).get() as IGraphUser;
     }
 
-    public async getUserManger(upn: string): Promise<IGraphUser> {
-        // return await graph.users.getById(upn).manager.select(...graphUserSelect).get() as IGraphUser;
-        return await graph.users.getById(upn).manager.select(...graphUserSelect)  as IGraphUser;
+    public async getUserManager(upn: string): Promise<IGraphUser> {
+        // return await graph.users.getById(upn).manager.select(...graphUserSelect).get() as IGraphUser; // SPFx 1.11.1.
+        return await graph.users.getById(upn).manager.select(...graphUserSelect)  as IGraphUser; // SPFx 1.17.1.
     }
     public async getUserDirectReports(upn: string, excludefilter?: boolean, filter?: string) {
 
