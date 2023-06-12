@@ -289,3 +289,40 @@ yarn add --exact office-ui-fabric-react@6.194.0
 
 It did not fix the error.
 
+
+
+"[00:40:31] Error - [tsc] src/webparts/peoplesearch/PeopleSearchWebPart.ts(125,47): error TS2345: Argument of type 'import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@microsoft/sp-http-msgraph/dist/index-internal").MSGraphClientFactory' is not assignable to parameter of type 'import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@microsoft/sp-http/dist/index-internal").MSGraphClientFactory'.
+[00:40:31] [tsc] Types have separate declarations of a private property '_serviceScope'.
+"
+
+SearchService.ts.
+-----------------
+import { MSGraphClientFactory } from '@microsoft/sp-http-msgraph';//'@microsoft/sp-http';
+
+Fixes the error.
+Follow-up changes also needed:
+
+"[01:09:39] Error - [tsc] src/services/SearchService/SearchService.ts(35,58): error TS2554: Expected 1 arguments, but got 0."
+// Must specify MS Graph version "3" for MSGraphClientV3.
+  public async searchUsers(): Promise<PageCollection<MicrosoftGraph.User>> {
+    const graphClient = await this._msGraphClientFactory.getClient("3");
+
+" Error - [tsc] src/services/SearchService/SearchService.ts(65,58): error TS2554: Expected 1 arguments, but got 0."
+ 
+ public async fetchPage(pageLink: string): Promise<PageCollection<MicrosoftGraph.User>>  {
+    const graphClient = await this._msGraphClientFactory.getClient("3");
+
+PeopleSearchWebPart.ts
+----------------------
+"[01:21:19] Error - [tsc] src/webparts/peoplesearch/PeopleSearchWebPart.ts(336,61): error TS2345: Argument of type 'import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@microsoft/sp-http/node_modules/@microsoft/sp-core-library/dist/index-internal").ServiceKey<import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@microsoft/sp-component-base/dist/index-int...' 
+is not assignable to parameter of type 'import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@microsoft/sp-core-library/dist/index-internal").ServiceKey<import("Z:/repos/github/sp-dev-fx-webparts/samples/react-msgraph-peoplesearch/node_modules/@microsoft/sp-component-base/dist/index-internal").ThemeProvider>'.
+[01:21:19] [tsc] Types of property 'defaultCreator' are incompatible."
+
+  private _initThemeVariant(): void {
+    // Consume the new ThemeProvider service
+    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
+
+https://github.com/pnp/sp-dev-fx-controls-react/issues/1240
+  private _initThemeVariant(): void {
+    // Consume the new ThemeProvider service
+    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey as any);

@@ -1,8 +1,9 @@
 import { ISearchService } from "./ISearchService";
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-import { MSGraphClientFactory } from '@microsoft/sp-http';
+import { MSGraphClientFactory } from '@microsoft/sp-http-msgraph';//'@microsoft/sp-http';
 import { isEmpty } from "@microsoft/sp-lodash-subset";
 import { PageCollection } from "../../models/PageCollection";
+const MSGRAPH_VERSION = "3";
 
 export class SearchService implements ISearchService {
   private _msGraphClientFactory: MSGraphClientFactory;
@@ -32,7 +33,7 @@ export class SearchService implements ISearchService {
   }
 
   public async searchUsers(): Promise<PageCollection<MicrosoftGraph.User>> {
-    const graphClient = await this._msGraphClientFactory.getClient();
+    const graphClient = await this._msGraphClientFactory.getClient(MSGRAPH_VERSION);
 
     let resultQuery = graphClient
       .api('/users')
@@ -61,7 +62,7 @@ export class SearchService implements ISearchService {
   }
 
   public async fetchPage(pageLink: string): Promise<PageCollection<MicrosoftGraph.User>>  {
-    const graphClient = await this._msGraphClientFactory.getClient();
+    const graphClient = await this._msGraphClientFactory.getClient(MSGRAPH_VERSION);
 
     let resultQuery = graphClient.api(pageLink).header("ConsistencyLevel", "eventual");
 

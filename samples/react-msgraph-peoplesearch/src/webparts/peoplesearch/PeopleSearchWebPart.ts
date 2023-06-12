@@ -2,6 +2,8 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { Version, Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { ThemeProvider, IReadonlyTheme, ThemeChangedEventArgs } from '@microsoft/sp-component-base';
+// import { IReadonlyTheme, ThemeChangedEventArgs } from '@microsoft/sp-component-base';
+// import {  ThemeProvider } from '@microsoft/sp-core-library';
 import { BaseClientSideWebPart, IWebPartPropertiesMetadata } from "@microsoft/sp-webpart-base";
 import { DisplayMode } from "@microsoft/sp-core-library";
 import { isEqual } from '@microsoft/sp-lodash-subset';
@@ -238,7 +240,7 @@ export default class PeopleSearchWebPart extends BaseClientSideWebPart<IPeopleSe
         deferredValidationTime: 300,
         onGetErrorMessage: (value: string) => {
           return this._validateNumber(value);
-        } 
+        }
       }),
     ];
 
@@ -315,7 +317,7 @@ export default class PeopleSearchWebPart extends BaseClientSideWebPart<IPeopleSe
 
   /**
   * Checks if all webpart properties have been configured
-  */ 
+  */
   private _isWebPartConfigured(): boolean {
     return true;
   }
@@ -333,8 +335,9 @@ export default class PeopleSearchWebPart extends BaseClientSideWebPart<IPeopleSe
    */
   private _initThemeVariant(): void {
     // Consume the new ThemeProvider service
-    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey as any);
     // If it exists, get the theme variant
     this._themeVariant = this._themeProvider.tryGetTheme();
 
